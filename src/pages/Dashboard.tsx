@@ -1,0 +1,30 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const Dashboard = () => {
+  const [claims, setClaims] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios.get(`${import.meta.env.VITE_API_URL}/claims/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(res => setClaims(res.data))
+    .catch(_err => alert("Error fetching claims"));
+  }, []);
+
+  return (
+    <div>
+      <h2>My Claims</h2>
+      <ul>
+        {claims.map((claim, index) => (
+          <li key={index}>
+            {claim.policyNumber} - ${claim.amount} - {claim.status}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Dashboard;
