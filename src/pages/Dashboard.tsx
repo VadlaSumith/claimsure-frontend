@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+interface Claim {
+  policyNumber: string;
+  amount: number;
+  status: string;
+}
+
 const Dashboard = () => {
-  const [claims, setClaims] = useState([]);
+  const [claims, setClaims] = useState<Claim[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get(`${import.meta.env.VITE_API_URL}/claims/user`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then(res => setClaims(res.data))
-    .catch(_err => alert("Error fetching claims"));
+
+    axios
+      .get<Claim[]>(`${import.meta.env.VITE_API_URL}/claims/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setClaims(res.data))
+      .catch((err) => alert("Error fetching claims"));
   }, []);
 
   return (
