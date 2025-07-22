@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Claim {
@@ -18,7 +18,7 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setClaims(res.data))
-      .catch((err) => alert("Error fetching claims"));
+      .catch((_err) => alert("Error fetching claims"));
   }, []);
 
   return (
